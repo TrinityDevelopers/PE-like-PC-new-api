@@ -5,9 +5,6 @@
 #include "Substrate.h"
 
 #include "mcpe/Common.h"
-#include "mcpe/SharedConstants.h"
-#include "mcpe/client/gui/screen/StartMenuScreen.h"
-#include "mcpe/client/gui/Color.h"
 #include "mcpe/world/level/tile/Tile.h"
 #include "mcpe/world/level/tile/LiquidTileDynamic.h"
 #include "mcpe/world/material/Material.h"
@@ -23,19 +20,21 @@
 #include "PE-like-PC/world/tile/NoteBlockTile.h"
 #include "PE-like-PC/world/tile/SoulSandTile.h"
 
-const std::string PELikePCVERSION = "1.0 DEV";
+const std::string PELIKEPCVERSION = "1.0 DEV";
 
 static std::string (*_Common$getGameVersionString)();
 static std::string Common$getGameVersionString() {
-	return _Common$getGameVersionString() + " + §a§lPE Like PC v" + PELikePCVERSION;
+	return "§a§lPE like PC" + PElIKEPCVERSION;
 }
 
 static std::string (*_I18n$get)(std::string const&, std::vector<std::string, std::allocator<std::string>> const&);
 static std::string I18n$get(std::string const& key, std::vector<std::string, std::allocator<std::string>> const& a) {
-	if(key == "menu.play") return "Singleplayer";
+	if(key == "menu.copyright") return "§a§l@SmartDEV Team";
+	if(key == "menu.play") return "§lSingleplayer";
 	
 	return _I18n$get(key, a);
 }
+
 
 static void (*_TileTessellator$tessellateInWorld)(TileTessellator*, Tile*, const TilePos&, bool);
 static void TileTessellator$tessellateInWorld(TileTessellator* self, Tile* tile, const TilePos& pos, bool b) {
@@ -54,10 +53,10 @@ static void (*_Tile$initTiles)();
 static void Tile$initTiles() {
 	_Tile$initTiles();
 	
+	Tile::brewing_stand = (Tile*)((new BrewingStandTile(117))->init()->setDestroyTime(0.5F)->setLightEmission(0.125F)->setNameId("brewingStand")->setSoundType(Tile::SOUND_METAL));
 	Tile::enchanting_table = (Tile*)((new EnchantmentTableTile(116))->init()->setDestroyTime(5.0F)->setExplodeable(2000.0F)->setNameId("enchantmentTable")->setCategory(2)->setSoundType(Tile::SOUND_STONE));
 	Tile::command_block = (Tile*)((new CommandBlockTile(137))->init()->setDestroyTime(-1.0F)->setExplodeable(6000000.0F)->setNameId("commandBlock")->setCategory(2)->setSoundType(Tile::SOUND_METAL));
-	Tile::brewing_stand = (Tile*)((new BrewingStandTile(117))->init()->setDestroyTime(0.5F)->setLightEmission(0.125F)->setNameId("brewingStand")->setSoundType(Tile::SOUND_METAL));
-
+	
 }
 
 static void (*_Item$initItems)();
