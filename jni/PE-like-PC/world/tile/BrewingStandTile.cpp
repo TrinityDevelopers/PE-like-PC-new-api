@@ -1,6 +1,6 @@
 #include "BrewingStandTile.h"
 
-BrewingStandTile::BrewingStandTile(int id) : Tile(id, &Material::metal) {
+BrewingStandTile::BrewingStandTile(int id) : EntityTile(id, &Material::metal) {
 	tex = getTextureUVCoordinateSet("brewing_stand", 0);
 	secondary_tex = getTextureUVCoordinateSet("brewing_stand_base", 0);
 	
@@ -24,3 +24,6 @@ void BrewingStandTile::addAABBs(TileSource* region, int x, int y, int z, AABB co
 	addAABB(AABB(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F).move(x, y, z), posAABB, pool);
 }
 
+TileEntity* BrewingStandTile::newTileEntity(const TilePos& tp) {
+	return new BrewingStandTileEntity();
+}
